@@ -2,41 +2,57 @@
 
 namespace App\Livewire;
 
+use App\Models\Transaction;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class Dashboard extends Component
 {
     public $name = 'JohnDoe';
-    public $aset = 1500000;
-    public $transactioncount = 0;
+   
 
     #[Validate('required|numeric|min:10000',message:'Minimal top up adalah 10.000')]
-    public $nominal;
+    public $amount;
 
-    public function plusAssets()
-    {
-        $this->aset += 500000; //Tambah aset sebesar 500.000
-        $this->transactioncount++; //Tambah jumlah transaksi sebanyak 1
-    }
-    public function minusAssets()
-    {
-       if ($this->aset >= 500000) { // Pastikan aset tidak menjadi negatif
-            $this->aset -= 500000; // Kurangi aset sebesar 500.000
-            $this->transactioncount++; // Tambah jumlah transaksi sebanyak 1
-        }
-    }
+    
+    
     public function topUp()
     {
         $this->validate(); // menjalankan  validasi berdasarkan 3[Validate]
 
-        $this->aset += $this->nominal; // Tambah aset dengan nominal yang diinput
-        $this->transactioncount++; // Tambah jumlah transaksi sebanyak 1
+        //Simpann ke DATABASE
+        Transaction::create([
+            'type' => 'masuk',
+            'amount' => $this->amount,
+            'description' => 'Top Up Kustum'
+        ]);
 
-        $this->reset('nominal'); // Reset input nominal setelah top up
+        $this->reset('mount'); // Reset input nominal setelah top up
     }
+
+    public function minusAssets()
+        {
+            if($this->getAssets() >= 50000){
+                Transaction::create([
+                    'type' => 'keluar',
+                    'amount' => 50000,
+                    'description' => 'Penarikan Cepat'
+                ]);
+            }
+        }
+    private function getAssets()
+    {
+        $Masuk = Transaction::where('type', 'masuk')->sum('amount');
+        $Keluar = Transaction::where('type', 'keluar')->sum('amount');
+
+        return $Masuk - $Keluar;
+    }    
     public function render()
     {
-        return view('livewire.dashboard');
+        return view('livewire.dashboard', [   
+            'asset' => $this->getAssets(),
+            'transactions' => Transaction::count(),
+            'history' => Transaction::latest()->take(5)->get(),
+            ]);
     }
 }
