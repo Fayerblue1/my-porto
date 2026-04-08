@@ -49,7 +49,13 @@ class Dashboard extends Component
         $Keluar = Transaction::where('type', 'keluar')->sum('amount');
 
         return $Masuk - $Keluar;
-    }    
+    }
+    
+    public function delete($id)
+    {
+        $Transaction = Transaction::findOrFail($id);
+        $Transaction->delete();
+    }
     public function render()
     {
         $history = Transaction::query()
