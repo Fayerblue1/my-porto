@@ -20,15 +20,15 @@
     <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="p-8 bg-slate-50 rounded-2xl border border-slate-300 transition-hover hover:border-indigo-700">
             <p class="text-slate-400 text-xl font-bold uppercase tracking-widest">Total Aset</p>
-            <p class="text-3xl font-black text-slate-800 mt-2">Rp {{ number_format($aset, 0, ',', '.') }}</p>
+            <p class="text-3xl font-black text-slate-800 mt-2">Rp {{ number_format($asset, 0, ',', '.') }}</p>
 
-            <button wire:click="minusAssest" class="mt-4 w-full bg-white border-2 border-red-200 text-red-500 py-2 rounded-lg font-bold hover-bg-red-50 transition-all"></button>
+            <button wire:click="minusAssets" class="mt-4 w-full bg-white border-2 border-red-200 text-red-500 py-2 rounded-lg font-bold hover:bg-red-50 transition-all">- Tarik 50.000</button>
 
         </div>
 
         <div class="p-8 bg-indigo-600 rounded-2xl border border-indigo-500 text-white shadow-xl shadow-indigo-200">
             <p class="text-indigo-100 text-xl font-bold uppercase tracking-widest text-opacity-70">Progress Pelajaran</p>
-            <p class="text-3xl font-black mt-2">Bab 5 :Database Integretion </p>
+            <p class="text-3xl font-black mt-2">Bab 6 :Loading State </p>
         </div>
     </div>
 
@@ -44,13 +44,17 @@
              placeholder="Minimal top up 10.000">
              
              <button 
-             wire:loading.attr="disabled"
+             
              type="submit"
-             class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-500 px-10 py-4 rounded-xl font-black uppercase tracking-widest shadow-lg shadow-indigo-900/50 transition-all active:scale-95 disable:opacity-50%">
-             Top Up
+             class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-500 px-9 py-4 rounded-xl font-black uppercase tracking-widest shadow-lg shadow-indigo-900/50 transition-all active:scale-95 disable:opacity-50%">
+                <span wire:loading.remove wire-target="topUp">Top up</span>
+                <span wire:loading wire-target="topUp" class="flwx itmes-center gap-2">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    Memproses...
+                </span>
             </button>
 
-            @error('nominal')
+            @error('amount')
                 <span class="text-red-400 text-xs font-bold mt-1 tracking-tight"> ⚠️{{ $message }}</span>
             @enderror
 
@@ -58,6 +62,9 @@
     </div>
     <div class="mt-12">
         <h2 class="text-xl font-bold textt-slite-800 mb-6 flex items-center gap-2">📝 Histori Transaksi</h2>
+        <div wire:loading wire:target='topUp, minusAssets' class="text-indigo-600 text-xs font-bold flex items-center gap-2 animate-pulse">
+            🔃 Memperbarui Data...
+        </div>
         <div class="hoverflow-hidden rounded-xl border border-slate-200 ">
             <table class="w-full tex-left border-collapse">
                 <thead class="bg-slite-50">

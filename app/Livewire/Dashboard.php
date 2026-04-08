@@ -20,6 +20,8 @@ class Dashboard extends Component
     {
         $this->validate(); // menjalankan  validasi berdasarkan 3[Validate]
 
+
+        sleep(2);
         //Simpann ke DATABASE
         Transaction::create([
             'type' => 'masuk',
@@ -27,11 +29,12 @@ class Dashboard extends Component
             'description' => 'Top Up Kustum'
         ]);
 
-        $this->reset('mount'); // Reset input nominal setelah top up
+        $this->reset('amount'); // Reset input nominal setelah top up
     }
 
     public function minusAssets()
         {
+                sleep(2);
             if($this->getAssets() >= 50000){
                 Transaction::create([
                     'type' => 'keluar',
