@@ -28,7 +28,7 @@
 
         <div class="p-8 bg-indigo-600 rounded-2xl border border-indigo-500 text-white shadow-xl shadow-indigo-200">
             <p class="text-indigo-100 text-xl font-bold uppercase tracking-widest text-opacity-70">Progress Pelajaran</p>
-            <p class="text-3xl font-black mt-2">Bab 6 :Loading State </p>
+            <p class="text-3xl font-black mt-2">Bab 7 :Search & Filter Realtime</p>
         </div>
     </div>
 
@@ -61,7 +61,25 @@
         </form>
     </div>
     <div class="mt-12">
-        <h2 class="text-xl font-bold textt-slite-800 mb-6 flex items-center gap-2">📝 Histori Transaksi</h2>
+        <div class="flex-flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <h2 class="text-xl font-bold textt-slite-800 mb-6 flex items-center gap-2">📝 Histori Transaksi</h2>
+            <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </svg>
+                </span>
+
+                <input 
+                    type="text"
+                    wire:model.live="search"
+                    placeholder="Cari Transaksi..."
+                    class="w-full md:w-64 pl-10 pr-4 py-2 bg-white border border-slate-300 rounded-xl text-xm">
+            </div>
+
+        </div>
+    
         <div wire:loading wire:target='topUp, minusAssets' class="text-indigo-600 text-xs font-bold flex items-center gap-2 animate-pulse">
             🔃 Memperbarui Data...
         </div>
